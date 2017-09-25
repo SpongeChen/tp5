@@ -5,6 +5,8 @@ use think\Controller;
 use think\Config; //配置文件类
 use think\Env; //环境变量类
 use think\Request; //请求对象
+use think\Db;
+use app\index\model\User; //user 模型
 
 class Index extends Controller
 {
@@ -53,4 +55,68 @@ class Index extends Controller
             ['NAME'=>'chenYw']
             );
     }
+
+    public function dbtest()
+    {
+        $rs = Db::query('select * from tp5_user where username=?',['chenyw']);
+        //$rs = Db::execute('insert into tp5_user (username , password) value (?,?)',['bob','123456789']);
+        //$rs = Db::execute('insert into tp5_user (username , password) value (:username,:password)',['username'=>'vava','password'=>'888888888']);
+        //dump($rs);
+    }
+
+
+    public function modeltest()
+    {
+        $rs = User::get(1);
+        $rs = User::where('id',2)->find();
+
+
+
+        // $user = new User();
+
+        // for ($i=0; $i < 10 ; $i++) { 
+        //     $data[] = [
+        //         'username' => 'chenyw'.$i,
+        //         'password' => md5('123456'.$i),
+        //         'email'    => 'chenyw'.$i.'@126.com'
+        //     ];
+        // }
+        // $rs = $user->saveAll($data);
+        // foreach ($rs as $k => $v) {
+        //     dump($v->toArray());
+        // }
+        // dump($rs);  
+
+        // $res = $user->save(
+        //     ['username'=>'chen'],
+        //     function($query){
+        //         $query->where('username','chenyw1');
+        //     }
+        // );
+
+
+        // $res = $user->save(
+        //     ['username'=>'cywcyw','password'=>'123456','email'=>'cctv@126.com']
+        // );
+
+        // $res = $user->save(
+        //     ['password'=>'123456','email'=>'cctv@163.com'],
+        //     function($query){
+        //         $query->where('username','cywcyw');
+        //     }
+        // );
+
+        //$res = $user->where('username','like','%chen%')->delete();
+        $user = User::get(96);
+        // 软删除
+        $res = $user->delete();
+        //User::destroy();
+
+        dump($res);
+
+
+    }
+
+
+
 }
